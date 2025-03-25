@@ -96,6 +96,12 @@ APPLY_SMALI_PATCHES()
             fi
         fi
 
+        if [[ "$patch" == *".essi."* ]] && [[ "$TARGET_SINGLE_SYSTEM_IMAGE" == "qssi" ]]; then
+            continue
+        elif [[ "$patch" == *".qssi."* ]] && [[ "$TARGET_SINGLE_SYSTEM_IMAGE" == "essi" ]]; then
+            continue
+        fi
+
         (set +e; APPLY_PATCH "$PARTITION" "$TARGET" "$p")
         # shellcheck disable=SC2181
         [[ "$?" != 0 ]] && return 1
