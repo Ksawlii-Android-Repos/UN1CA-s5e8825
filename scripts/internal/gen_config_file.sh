@@ -142,6 +142,9 @@ GEN_CONFIG_FILE()
 }
 
 source "$SRC_DIR/target/$1/config.sh"
+if [ "$TARGET_COMMON_NAME" ]; then
+    source "$SRC_DIR/target/$TARGET_COMMON_NAME/config.sh" 
+fi
 source "$SRC_DIR/unica/config.sh"
 # ]
 
