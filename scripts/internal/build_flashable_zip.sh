@@ -454,6 +454,12 @@ $CMD &> /dev/null
 echo "Generating dynamic_partitions_op_list"
 GENERATE_OP_LIST
 
+if [ "$RELEASE" = "false" ]; then
+    BROTLI_COMPRESSION_LEVEL="0"
+else
+    BROTLI_COMPRESSION_LEVEL="6"
+fi
+
 while read -r i; do
     PARTITION="$(basename "$i" | sed "s/.img//g")"
 
@@ -470,7 +476,7 @@ while read -r i; do
     img2sdat -o "$TMP_DIR" "$i" > /dev/null 2>&1 \
         && rm "$i"
     echo "Compressing $PARTITION.new.dat"
-    brotli --quality=6 --output="$TMP_DIR/$PARTITION.new.dat.br" "$TMP_DIR/$PARTITION.new.dat" \
+    brotli --quality="$BROTLI_COMPRESSION_LEVEL" --output="$TMP_DIR/$PARTITION.new.dat.br" "$TMP_DIR/$PARTITION.new.dat" \
         && rm "$TMP_DIR/$PARTITION.new.dat"
 done <<< "$(find "$TMP_DIR" -mindepth 1 -maxdepth 1 -type f -name "*.img")"
 
@@ -491,12 +497,17 @@ echo "Creating zip"
 [ -f "$OUT_DIR/rom.zip" ] && rm -f "$OUT_DIR/rom.zip"
 cd "$TMP_DIR" ; zip -rq ../rom.zip ./* ; cd - &> /dev/null
 
-echo "Signing zip"
-[ -f "$OUT_DIR/$FILE_NAME-sign.zip" ] && rm -f "$OUT_DIR/$FILE_NAME-sign.zip"
-signapk -w \
-    "$SRC_DIR/security/$CERT_NAME.x509.pem" "$SRC_DIR/security/$CERT_NAME.pk8" \
-    "$OUT_DIR/rom.zip" "$OUT_DIR/$FILE_NAME-sign.zip" \
-    && rm -f "$OUT_DIR/rom.zip"
+if [ "$RELEASE" = false ]; then
+    [ -f "$OUT_DIR/$FILE_NAME.zip" ] && rm -f "$OUT_DIR/$FILE_NAME.zip"
+    mv -f "$OUT_DIR/rom.zip" "$OUT_DIR/$FILE_NAME.zip"
+else
+    echo "Signing zip"
+    [ -f "$OUT_DIR/$FILE_NAME-sign.zip" ] && rm -f "$OUT_DIR/$FILE_NAME-sign.zip"
+    signapk -w \
+        "$SRC_DIR/security/$CERT_NAME.x509.pem" "$SRC_DIR/security/$CERT_NAME.pk8" \
+        "$OUT_DIR/rom.zip" "$OUT_DIR/$FILE_NAME-sign.zip" \
+        && rm -f "$OUT_DIR/rom.zip"
+fi
 
 echo "Deleting tmp dir"
 rm -rf "$TMP_DIR"

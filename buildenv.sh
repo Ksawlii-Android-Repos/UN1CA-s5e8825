@@ -151,9 +151,18 @@ sed "/Automatically/d" "$OUT_DIR/config.sh"
 echo "=============================="
 
 if [ ! -d "target/a53x/patches/tee" ] && [ "$TARGET_CODENAME" = "a53x" ]; then
+    echo ""
     echo "=============================="
     echo "TEE PATCH NOT FOUND"
     echo "ROM WON'T BOOT ON A536B"
+    echo "=============================="
+fi
+
+if [ "$RELEASE" = "false" ]; then
+    echo ""
+    echo "=============================="
+    echo "RELEASE IS SET TO FALSE"
+    echo "DISABLING BROTLI COMPRESSION"
     echo "=============================="
 fi
 
