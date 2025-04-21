@@ -150,4 +150,11 @@ echo "=============================="
 sed "/Automatically/d" "$OUT_DIR/config.sh"
 echo "=============================="
 
+if [ ! -d "target/a53x/patches/tee" ] && [ "$TARGET_CODENAME" = "a53x" ]; then
+    echo "=============================="
+    echo "TEE PATCH NOT FOUND"
+    echo "ROM WON'T BOOT ON A536B"
+    echo "=============================="
+fi
+
 return 0
