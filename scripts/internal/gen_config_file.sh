@@ -79,6 +79,9 @@ GEN_CONFIG_FILE()
         echo "TARGET_VNDK_VERSION=\"${TARGET_VNDK_VERSION:?}\""
         echo "TARGET_SINGLE_SYSTEM_IMAGE=\"${TARGET_SINGLE_SYSTEM_IMAGE:?}\""
         echo "TARGET_OS_FILE_SYSTEM=\"${TARGET_OS_FILE_SYSTEM:?}\""
+        if [ "${TARGET_COMMON_NAME}" ]; then
+            echo "TARGET_COMMON_NAME=\"${TARGET_COMMON_NAME:?}\""
+        fi
         echo "TARGET_INSTALL_METHOD=\"${TARGET_INSTALL_METHOD:=zip}\""
         echo "TARGET_BOOT_DEVICE_PATH=\"${TARGET_BOOT_DEVICE_PATH:=/dev/block/bootdevice/by-name}\""
         echo "TARGET_INCLUDE_PATCHED_VBMETA=\"${TARGET_INCLUDE_PATCHED_VBMETA:=false}\""
