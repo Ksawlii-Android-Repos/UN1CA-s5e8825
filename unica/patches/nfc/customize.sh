@@ -31,7 +31,10 @@ fi
 [ -f "$TARGET_FIRMWARE_PATH/system/system/etc/libnfc-nci-STM_ST21.conf" ] && \
     ADD_TO_WORK_DIR "$TARGET_FIRMWARE_PATH" "system" "system/etc/libnfc-nci-STM_ST21.conf" 0 0 644 "u:object_r:system_file:s0"
 
-TARGET_NFC_CHIPNAMES="nxpsn nxppn sec st"
+TARGET_NFC_CHIPNAMES="nxpsn nxppn sec nci-st st"
+if [ -f "$TARGET_FIRMWARE_PATH/system/system/lib64/libnfc-nci-st.so" ]; then
+    TARGET_NFC_CHIPNAME="nci-st"
+fi
 for i in $TARGET_NFC_CHIPNAMES; do
     if [ -f "$WORK_DIR/system/system/lib64/libnfc_${i}_jni.so" ]; then
         if [ -f "$TARGET_FIRMWARE_PATH/system/system/lib64/libnfc_${i}_jni.so" ]; then
@@ -43,7 +46,11 @@ for i in $TARGET_NFC_CHIPNAMES; do
         fi
     elif [ -f "$TARGET_FIRMWARE_PATH/system/system/lib64/libnfc_${i}_jni.so" ]; then
         ADD_TO_WORK_DIR "$TARGET_FIRMWARE_PATH" "system" "system/app/NfcNci/lib/arm64/libnfc_${i}_jni.so" 0 0 644 "u:object_r:system_file:s0"
-        ADD_TO_WORK_DIR "$TARGET_FIRMWARE_PATH" "system" "system/lib64/libnfc-${i}.so" 0 0 644 "u:object_r:system_lib_file:s0"
+        if [ "$TARGET_NFC_CHIPNAME" ]; then
+            ADD_TO_WORK_DIR "$TARGET_FIRMWARE_PATH" "system" "system/lib64/libnfc-$TARGET_NFC_CHIPNAME.so" 0 0 644 "u:object_r:system_lib_file:s0" 
+        else
+            ADD_TO_WORK_DIR "$TARGET_FIRMWARE_PATH" "system" "system/lib64/libnfc-${i}.so" 0 0 644 "u:object_r:system_lib_file:s0"
+        fi
         ADD_TO_WORK_DIR "$TARGET_FIRMWARE_PATH" "system" "system/lib64/libnfc_${i}_jni.so" 0 0 644 "u:object_r:system_lib_file:s0"
 
         # Workaround for pre-U libs
