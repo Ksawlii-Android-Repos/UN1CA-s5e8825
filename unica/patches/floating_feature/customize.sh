@@ -1,6 +1,11 @@
 READ_AND_APPLY_CONFIGS()
 {
-    local CONFIG_FILE="$SRC_DIR/target/$TARGET_CODENAME/sff.sh"
+    if [ "$TARGET_UNIFIED_NAME" ]; then
+        local CONFIG_FILE="$SRC_DIR/target/$TARGET_UNIFIED_NAME/sff.sh"
+        local TARGET_CONFIG_FILE="$SRC_DIR/target/$TARGET_UNIFIED_NAME/sff-$TARGET_CODENAME.sh"
+    else
+        local CONFIG_FILE="$SRC_DIR/target/$TARGET_CODENAME/sff.sh"
+    fi
     if [ "$TARGET_COMMON_NAME" ]; then
         local COMMON_CONFIG_FILE="$SRC_DIR/target/$TARGET_COMMON_NAME/sff.sh"      
     fi
@@ -21,6 +26,24 @@ READ_AND_APPLY_CONFIGS()
                 return 1
             fi
         done < "$CONFIG_FILE"
+    fi
+
+    if [ -f "$TARGET_CONFIG_FILE" ] && [ "$TARGET_UNIFIED_NAME" ]; then
+        while read -r i; do
+            [[ "$i" = "#"* ]] && continue
+            [[ -z "$i" ]] && continue
+
+            if echo -n "$i" | grep -q "="; then
+                if [[ -z "$(echo -n "$i" | cut -d "=" -f 2)" ]]; then
+                    SET_FLOATING_FEATURE_CONFIG "$(echo -n "$i" | cut -d "=" -f 1)" --delete
+                else
+                    SET_FLOATING_FEATURE_CONFIG "$(echo -n "$i" | cut -d "=" -f 1)" "$(echo -n "$i" | cut -d "=" -f 2-)"
+                fi
+            else
+                echo "Malformed string in target/$TARGET_UNIFIED_NAME/sff-$TARGET_CODENAME.sh: \"$i\""
+                return 1
+            fi
+        done < "$TARGET_CONFIG_FILE"
     fi
 
     if [ -f "$COMMON_CONFIG_FILE" ] && [ "$TARGET_COMMON_NAME" ]; then

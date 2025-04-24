@@ -25,7 +25,7 @@ APPLY_PATCH() {
     local PATCH
     local COMMIT_NAME
 
-    PATCH="$SRC_DIR/target/s5e8825-common/patches/dtbo/patches/$2"
+    PATCH="$SRC_DIR/target/s5e8825/patches/dtbo/patches/$2"
     COMMIT_NAME="$(grep "^Subject:" "$PATCH" | sed 's/.*PATCH] //')"
     echo "Applying \"$COMMIT_NAME\" to $1"
     patch -p1 -s -t -N --no-backup-if-mismatch -d "$TMP_DIR" < "$PATCH" &> /dev/null

@@ -22,16 +22,14 @@ RESIZE_APK()
         cwebp -q 100 -resize $WEBP_RES $WEBP_RES "$f" -o "$(dirname "$f")/temp.webp" &> /dev/null
         mv -f "$(dirname "$f")/temp.webp" "$f"
     done
-    if [ ! "$TARGET_HAS_COMMON_TARGET" = "s5e8825-common" ]; then
-        for f in "$APKTOOL_DIR/system/priv-app/wallpaper-res/wallpaper-res.apk/res/raw/"*.mp4
-        do
-            ffmpeg -i "$f" -c:v libx265 -tag:v hvc1 -c:a copy \
-                -crf 18 -movflags use_metadata_tags -map_metadata 0 \
-                -vf "scale=$MP4_RES,setsar=1:1" -video_track_timescale 60000 \
-                "$(dirname "$f")/temp.mp4" &> /dev/null
-            mv -f "$(dirname "$f")/temp.mp4" "$f"
-        done
-    fi
+    for f in "$APKTOOL_DIR/system/priv-app/wallpaper-res/wallpaper-res.apk/res/raw/"*.mp4
+    do
+        ffmpeg -i "$f" -c:v libx265 -tag:v hvc1 -c:a copy \
+            -crf 18 -movflags use_metadata_tags -map_metadata 0 \
+            -vf "scale=$MP4_RES,setsar=1:1" -video_track_timescale 60000 \
+            "$(dirname "$f")/temp.mp4" &> /dev/null
+        mv -f "$(dirname "$f")/temp.mp4" "$f"
+    done
 }
 # ]
 

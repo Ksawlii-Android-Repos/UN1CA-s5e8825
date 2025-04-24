@@ -91,9 +91,14 @@ if $BUILD_ROM; then
 
     echo -e "\n- Applying ROM patches..."
     bash "$SRC_DIR/scripts/internal/apply_modules.sh" "$SRC_DIR/unica/patches"
-    [[ -d "$SRC_DIR/target/$TARGET_CODENAME/patches" ]] \
-        && bash "$SRC_DIR/scripts/internal/apply_modules.sh" "$SRC_DIR/target/$TARGET_CODENAME/patches"
-    if [ "$TARGET_COMMON_NAME" ]; then
+    
+    if [ "$TARGET_UNIFIED_NAME" != "false" ]; then
+        bash "$SRC_DIR/scripts/internal/apply_modules.sh" "$SRC_DIR/target/$TARGET_UNIFIED_NAME/patches"
+    else
+        [[ -d "$SRC_DIR/target/$TARGET_CODENAME/patches" ]] \
+            && bash "$SRC_DIR/scripts/internal/apply_modules.sh" "$SRC_DIR/target/$TARGET_CODENAME/patches"
+    fi
+    if [ "$TARGET_COMMON_NAME" != "false" ]; then
         bash "$SRC_DIR/scripts/internal/apply_modules.sh" "$SRC_DIR/target/$TARGET_COMMON_NAME/patches"
     fi
 
