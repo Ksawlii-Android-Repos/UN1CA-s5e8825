@@ -422,7 +422,12 @@ GENERATE_BUILD_INFO()
     true
 }
 
-FILE_NAME="UN1CA_${ROM_VERSION}_$(date +%Y%m%d)_${TARGET_CODENAME}"
+MODEL=$(echo "${TARGET_FIRMWARE%%/*}" | sed 's/^SM-//' | tr 'A-Z' 'a-z')
+if [ "$TARGET_CODENAME" = "a53x" ]; then
+    FILE_NAME="UN1CA_${ROM_VERSION}_$(date +%Y%m%d)_${MODEL}"
+else
+    FILE_NAME="UN1CA_${ROM_VERSION}_$(date +%Y%m%d)_${TARGET_CODENAME}"
+fi
 CERT_NAME="aosp_testkey"
 $ROM_IS_OFFICIAL && [ -f "$SRC_DIR/security/unica_ota.pk8" ] && CERT_NAME="unica_ota"
 # ]
