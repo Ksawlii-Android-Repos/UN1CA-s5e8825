@@ -23,6 +23,8 @@ REPLACE_KERNEL_BINARIES()
 }
 # ]
 
-REPLACE_KERNEL_BINARIES
-rm -rf "$TMP_DIR"
-rm -rf "$WORK_DIR/floppy/"
+if [ "$TARGET_CODENAME" != "m34x" ]; then
+    REPLACE_KERNEL_BINARIES
+    rm -rf "$TMP_DIR"
+    rm -rf "$WORK_DIR/floppy/"  
+fi

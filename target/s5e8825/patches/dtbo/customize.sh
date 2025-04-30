@@ -69,6 +69,16 @@ a25x_swa_open_w00_r05.dtbo
     custom0=0x00000005
     custom1=0x00000020
 EOF
+    elif [ "$TARGET_CODENAME" = "m34x" ]; then
+        cat << EOF > "$TMP_DIR/m34x.cfg"
+m34x_eur_open_w00_r00.dtbo
+    custom0=0x00000000
+    custom1=0x00000000
+
+m34x_eur_open_w00_r01.dtbo
+    custom0=0x00000001
+    custom1=0x00000020
+EOF
     fi
 }
 
@@ -83,6 +93,9 @@ PACK_TO_DTBO() {
         dtc -I dts -O dtb -o "$TMP_DIR/a25x_swa_open_w00_r00.dtbo" "$TMP_DIR/dtsi.0" &> /dev/null
         dtc -I dts -O dtb -o "$TMP_DIR/a25x_swa_open_w00_r04.dtbo" "$TMP_DIR/dtsi.1" &> /dev/null
         dtc -I dts -O dtb -o "$TMP_DIR/a25x_swa_open_w00_r05.dtbo" "$TMP_DIR/dtsi.2" &> /dev/null
+    elif [ "$TARGET_CODENAME" = "m34x" ]; then
+        dtc -I dts -O dtb -o "$TMP_DIR/m34x_eur_open_w00_r00.dtbo" "$TMP_DIR/dtsi.0" &> /dev/null
+        dtc -I dts -O dtb -o "$TMP_DIR/m34x_eur_open_w00_r01.dtbo" "$TMP_DIR/dtsi.1" &> /dev/null
     fi
 }
 
@@ -95,7 +108,9 @@ EXTRACT
 if [ "$TARGET_CODENAME" = "a53x" ]; then
     APPLY_PATCH "dtbo" "0001-Fix-Adaptive-Refresh-Rate-Color-Flickering-a53x.patch" 
 elif [ "$TARGET_CODENAME" = "a25x" ]; then
-    APPLY_PATCH "dtbo" "0001-Fix-Adaptive-Refresh-Rate-Color-Flickering-a25x.patch" 
+    APPLY_PATCH "dtbo" "0001-Fix-Adaptive-Refresh-Rate-Color-Flickering-a25x.patch"
+elif [ "$TARGET_CODENAME" = "m34x" ]; then
+    APPLY_PATCH "dtbo" "0001-Fix-Adaptive-Refresh-Rate-Color-Flickering-m34x.patch"
 fi
 CREATE_CFG
 echo "Repacking dtbo"

@@ -49,7 +49,7 @@ done
 
 if [ "$TARGET_CODENAME" = "a53x" ]; then
     ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/lib64/libimage_enhancement.arcsoft.so" 0 0 644 "u:object_r:system_lib_file:s0"
-elif [ "$TARGET_CODENAME" = "a25x" ]; then
+elif [ "$TARGET_CODENAME" = "a25x" ] || [ "$TARGET_CODENAME" = "m34x" ]; then
     sed -i '/libimage_enhancement.arcsoft.so/d' "$WORK_DIR/system/system/etc/public.libraries-arcsoft.txt"
 fi
 
