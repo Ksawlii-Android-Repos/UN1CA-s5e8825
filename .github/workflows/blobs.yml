@@ -3,7 +3,7 @@ name: Update prebuilt blobs
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 12 * * *"
+    - cron: "0 12 * * 1"
 
 jobs:
   update:
@@ -35,12 +35,6 @@ jobs:
             path: "prebuilts/samsung/r9qxxx"
           - module: "Galaxy S23 FE (r11sxxx)"
             path: "prebuilts/samsung/r11sxxx"
-          - module: "(dm1q) China firmware blobs"
-            path: "target/dm1q/patches/china"
-          - module: "(dm2q) China firmware blobs"
-            path: "target/dm2q/patches/china"
-          - module: "(dm3q) China firmware blobs"
-            path: "target/dm3q/patches/china"
 
     steps:
       - name: Checkout repo
