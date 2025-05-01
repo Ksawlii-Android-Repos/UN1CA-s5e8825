@@ -36,6 +36,7 @@ elif [ "$TARGET_CODENAME" = "a25x" ] || [ "$TARGET_CODENAME" = "m34x" ]; then
     ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/lib/lib_SoundBooster_ver1130.so" 0 0 644 "u:object_r:system_lib_file:s0"
     ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/lib64/lib_SoundBooster_ver1130.so" 0 0 644 "u:object_r:system_lib_file:s0"
 fi
+
 if [ "$TARGET_CODENAME" = "m34x" ]; then
     ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/lib/lib_SoundAlive_play_plus_ver500.so" 0 0 644 "u:object_r:system_lib_file:s0"
     ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/lib64/lib_SoundAlive_play_plus_ver500.so" 0 0 644 "u:object_r:system_lib_file:s0"
@@ -81,3 +82,15 @@ DELETE_FROM_WORK_DIR "system" "system/lib64/libprocessgroup_setup.so"
 ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/lib/libprocessgroup.so" 0 0 644 "u:object_r:system_lib_file:s0"
 ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/lib64/libprocessgroup.so" 0 0 644 "u:object_r:system_lib_file:s0"
 ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/lib64/libprocessgroup_setup.so" 0 0 644 "u:object_r:system_lib_file:s0"
+
+echo "Replace ril libs"
+DELETE_FROM_WORK_DIR "system" "system/lib/libsecril-client.so"
+DELETE_FROM_WORK_DIR "system" "system/lib64/libbrillo.so"
+DELETE_FROM_WORK_DIR "system" "system/lib64/libsecril-client.so"
+DELETE_FROM_WORK_DIR "system" "system/lib64/libbrillo-binder.so"
+DELETE_FROM_WORK_DIR "system" "system/lib64/libbrillo-stream.so"
+ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/lib/libsecril-client.so" 0 0 644 "u:object_r:system_lib_file:s0"
+ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/lib64/libbrillo.so" 0 0 644 "u:object_r:system_lib_file:s0"
+ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/lib64/libsecril-client.so" 0 0 644 "u:object_r:system_lib_file:s0"
+ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/lib64/libbrillo-binder.so" 0 0 644 "u:object_r:system_lib_file:s0"
+ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/lib64/libbrillo-stream.so" 0 0 644 "u:object_r:system_lib_file:s0"
