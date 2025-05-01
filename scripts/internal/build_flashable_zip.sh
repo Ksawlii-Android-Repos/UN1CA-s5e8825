@@ -423,7 +423,7 @@ GENERATE_BUILD_INFO()
 }
 
 MODEL=$(echo "${TARGET_FIRMWARE%%/*}" | sed 's/^SM-//' | tr 'A-Z' 'a-z')
-if [ "$TARGET_CODENAME" = "a53x" ]; then
+if [ "$TARGET_CODENAME" = "a53x" ] || [ "$TARGET_CODENAME" = "a33x" ]; then
     FILE_NAME="UN1CA_${ROM_VERSION}_$(date +%Y%m%d)_${MODEL}"
 else
     FILE_NAME="UN1CA_${ROM_VERSION}_$(date +%Y%m%d)_${TARGET_CODENAME}"

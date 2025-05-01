@@ -79,6 +79,28 @@ m34x_eur_open_w00_r01.dtbo
     custom0=0x00000001
     custom1=0x00000020
 EOF
+    elif [ "$TARGET_CODENAME" = "a33x" ]; then
+        cat << EOF > "$TMP_DIR/a33x.cfg"
+a33x_eur_open_w00_r00.dtbo
+    custom0=0x00000000
+    custom1=0x00000000
+
+a33x_eur_open_w00_r01.dtbo
+    custom0=0x00000001
+    custom1=0x00000001
+
+a33x_eur_open_w00_r02.dtbo
+    custom0=0x00000002
+    custom1=0x00000002
+
+a33x_eur_open_w00_r03.dtbo
+    custom0=0x00000003
+    custom1=0x00000003
+
+a33x_eur_open_w00_r04.dtbo
+    custom0=0x00000004
+    custom1=0x00000020
+EOF
     fi
 }
 
@@ -96,6 +118,12 @@ PACK_TO_DTBO() {
     elif [ "$TARGET_CODENAME" = "m34x" ]; then
         dtc -I dts -O dtb -o "$TMP_DIR/m34x_eur_open_w00_r00.dtbo" "$TMP_DIR/dtsi.0" &> /dev/null
         dtc -I dts -O dtb -o "$TMP_DIR/m34x_eur_open_w00_r01.dtbo" "$TMP_DIR/dtsi.1" &> /dev/null
+    elif [ "$TARGET_CODENAME" = "a33x" ]; then
+        dtc -I dts -O dtb -o "$TMP_DIR/a33x_eur_open_w00_r00.dtbo" "$TMP_DIR/dtsi.0" &> /dev/null
+        dtc -I dts -O dtb -o "$TMP_DIR/a33x_eur_open_w00_r01.dtbo" "$TMP_DIR/dtsi.1" &> /dev/null
+        dtc -I dts -O dtb -o "$TMP_DIR/a33x_eur_open_w00_r02.dtbo" "$TMP_DIR/dtsi.2" &> /dev/null
+        dtc -I dts -O dtb -o "$TMP_DIR/a33x_eur_open_w00_r03.dtbo" "$TMP_DIR/dtsi.3" &> /dev/null
+        dtc -I dts -O dtb -o "$TMP_DIR/a33x_eur_open_w00_r04.dtbo" "$TMP_DIR/dtsi.4" &> /dev/null
     fi
 }
 
@@ -103,20 +131,26 @@ PACK_TO_IMG() {
     mkdtimg cfg_create "$TMP_DIR/dtbo.img" "$TMP_DIR/$TARGET_CODENAME.cfg" -d "$TMP_DIR" &> /dev/null
 }
 
-echo "Extracting dtbo"
-EXTRACT
-if [ "$TARGET_CODENAME" = "a53x" ]; then
-    APPLY_PATCH "dtbo" "0001-Fix-Adaptive-Refresh-Rate-Color-Flickering-a53x.patch" 
-elif [ "$TARGET_CODENAME" = "a25x" ]; then
-    APPLY_PATCH "dtbo" "0001-Fix-Adaptive-Refresh-Rate-Color-Flickering-a25x.patch"
-elif [ "$TARGET_CODENAME" = "m34x" ]; then
-    APPLY_PATCH "dtbo" "0001-Fix-Adaptive-Refresh-Rate-Color-Flickering-m34x.patch"
+if [ "$TARGET_CODENAME" = "a33x" ]; then
+    [ -f "$WORK_DIR/kernel/dtbo.img" ] && rm -rf "$WORK_DIR/kernel/dtbo.img"
+    echo "Copying new dtbo.img"
+    cp -fa "$SRC_DIR/target/s5e8825/patches/dtbo/prebuilt/dtbo.img" "$WORK_DIR/kernel/dtbo-a33x.img"
+else
+    echo "Extracting dtbo"
+    EXTRACT
+    if [ "$TARGET_CODENAME" = "a53x" ]; then
+        APPLY_PATCH "dtbo" "0001-Fix-Adaptive-Refresh-Rate-Color-Flickering-a53x.patch" 
+    elif [ "$TARGET_CODENAME" = "a25x" ]; then
+        APPLY_PATCH "dtbo" "0001-Fix-Adaptive-Refresh-Rate-Color-Flickering-a25x.patch"
+    elif [ "$TARGET_CODENAME" = "m34x" ]; then
+        APPLY_PATCH "dtbo" "0001-Fix-Adaptive-Refresh-Rate-Color-Flickering-m34x.patch"
+    fi
+    CREATE_CFG
+    echo "Repacking dtbo"
+    PACK_TO_DTBO
+    PACK_TO_IMG
+    [ -f "$WORK_DIR/kernel/dtbo.img" ] && rm -rf "$WORK_DIR/kernel/dtbo.img"
+    echo "Copying new dtbo.img"
+    cp -fa "$TMP_DIR/dtbo.img" "$WORK_DIR/kernel/dtbo.img"
+    rm -rf "$TMP_DIR"
 fi
-CREATE_CFG
-echo "Repacking dtbo"
-PACK_TO_DTBO
-PACK_TO_IMG
-[ -f "$WORK_DIR/kernel/dtbo.img" ] && rm -rf "$WORK_DIR/kernel/dtbo.img"
-echo "Copying new dtbo.img"
-cp -fa "$TMP_DIR/dtbo.img" "$WORK_DIR/kernel/dtbo.img"
-rm -rf "$TMP_DIR"
