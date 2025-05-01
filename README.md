@@ -75,6 +75,3 @@ A big thanks goes to the following for their invaluable contributions in no part
 - **[alyassin105g](t.me/alyassin105g)** for fixing Adaptive Refresh Rate color flickering
 - **[Mahdi](https://github.com/imahdisalimi)** for fixing live wallpapers
 - *All the UN1CA-s5e8825 project contributors and testers*
-
-# Stargazers over time
-[![Stargazers over time](https://starchart.cc/salvogiangri/UN1CA.svg)](https://starchart.cc/salvogiangri/UN1CA)
