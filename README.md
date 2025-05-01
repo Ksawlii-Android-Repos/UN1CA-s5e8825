@@ -23,6 +23,9 @@ Its build system allows to automatically download/extract the firmware, apply th
 
 Any form of contribution, suggestions, bug report or feature request for the project will be welcome.
 
+# Changelog (s5e8825)
+[Click Here](https://github.com/Ksawlii-Android-Repos/UN1CA-s5e8825/blob/fourteen-essi/changelog.md)
+
 # Devices (s5e8825)
 - Galaxy A53 (a53x): Supported, Maintained (A536B/E)
 - Galaxy A25 (a25x): Supported, Maintained (A256E)
