@@ -32,11 +32,10 @@ Any form of contribution, suggestions, bug report or feature request for the pro
 - Galaxy M34 (m34x): Supported, Maintained (M346B)
 
 # Features
-- Based on the latest stable Galaxy S23 firmware
+- Based on the latest stable Galaxy S23/S23 FE firmware
 - Galaxy AI support
 - High end animations
 - Native/live blur support
-- AOD clock transition support
 - Adaptive color tone support
 - Adaptive refresh rate support
 - Extra brightness support
@@ -48,7 +47,6 @@ Any form of contribution, suggestions, bug report or feature request for the pro
 - Samsung DeX support
 - Camera privacy toggle support
 - Debloated from useless system services/additional apps
-- Integrated OTA updates app
 - Play Integrity Fix included
 - [BluetoothLibraryPatcher](https://github.com/3arthur6/BluetoothLibraryPatcher) included
 - [FrameworkPatch](https://github.com/chiteroman/FrameworkPatch) implemented in system frameworks
