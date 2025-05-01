@@ -80,6 +80,3 @@ A big thanks goes to the following for their invaluable contributions in no part
 - **[Flopster101](https://github.com/Flopster101)** for [FloppyKernel](https://github.com/FlopKernel-Series/flop_s5e8825_kernel/)
 - **[alyassin105g](t.me/alyassin105g)** for fixing Adaptive Refresh Rate color flickering
 - *All the UN1CA-s5e8825 project contributors and testers*
-
-# Stargazers over time
-[![Stargazers over time](https://starchart.cc/salvogiangri/UN1CA.svg)](https://starchart.cc/salvogiangri/UN1CA)
