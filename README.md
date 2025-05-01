@@ -34,6 +34,9 @@ Any form of contribution, suggestions, bug report or feature request for the pro
 - Galaxy M33 (m33x): Not Supported, Not Maintained
 - Galaxy F34 (f34x): Not Supported, Not Maintained
 
+# Supported firmware (s5e8825)
+[Click Here](https://github.com/Ksawlii-Android-Repos/UN1CA-s5e8825/blob/fourteen-essi/firmwares.md)
+
 # Features
 - Based on the latest stable Galaxy S23 firmware
 - Galaxy AI support
