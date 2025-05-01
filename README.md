@@ -25,9 +25,9 @@ Any form of contribution, suggestions, bug report or feature request for the pro
 
 # Devices (s5e8825)
 - Galaxy A53 (a53x): Supported, Maintained (A536B/E)
-- Galaxy A25 (a25x): Supported, Not Maintained
-- Galaxy A33 (a33x): Not Supported, Not Maintained
-- Galaxy M34 (m34x): Not Supported, Not Maintained
+- Galaxy A25 (a25x): Supported, Maintained (A256E)
+- Galaxy A33 (a33x): Supported, Maintained (A336B/E)
+- Galaxy M34 (m34x): Supported, Maintained (M346B)
 - Galaxy M33 (m33x): Not Supported, Not Maintained
 - Galaxy F34 (f34x): Not Supported, Not Maintained
 
