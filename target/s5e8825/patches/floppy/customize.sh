@@ -1,30 +1,32 @@
-FLOPPY_VER="4.3"
-FLOPPY_BUILD_DATE="20250411-1642"
-FLOPPY_ZIP="https://github.com/FlopKernel-Series/flop_s5e8825_kernel/releases/download/flop-v$FLOPPY_VER/Floppy_v$FLOPPY_VER-Vanilla-exynos1280-$FLOPPY_BUILD_DATE.tar"
-
 # [
 REPLACE_KERNEL_BINARIES()
 {
+    local LATEST
+    local FLOPPY_TAR
+    
     [ -d "$TMP_DIR" ] && rm -rf "$TMP_DIR"
     mkdir -p "$TMP_DIR"
 
-    echo "Downloading $(basename "$FLOPPY_ZIP")"
-    curl -L -s -o "$TMP_DIR/floppy.tar" "$FLOPPY_ZIP"
+    LATEST=$(curl -s https://api.github.com/repos/FlopKernel-Series/flop_s5e8825_kernel/releases/latest)
+    FLOPPY_TAR=$(echo "$LATEST" |
+        jq -r '.assets[] | select(.name | test("Vanilla-exynos1280.*\\.tar$")) | .browser_download_url')
+
+    echo "Downloading $(basename "$FLOPPY_TAR")"
+    curl -L -s -o "$TMP_DIR/floppy.tar" "$FLOPPY_TAR"
 
     echo "Extracting kernel binaries"
+    tar xf "$TMP_DIR/floppy.tar" -C "$TMP_DIR"
+    lz4 -q -d "$TMP_DIR/boot.img.lz4" "$TMP_DIR/boot.img"
+    lz4 -q -d "$TMP_DIR/vendor_boot.img.lz4" "$TMP_DIR/vendor_boot.img"
+    echo "Replacing kernel binaries"
     [ -f "$WORK_DIR/kernel/boot.img" ] && rm -rf "$WORK_DIR/kernel/boot.img"
     [ -f "$WORK_DIR/kernel/vendor_boot.img" ] && rm -rf "$WORK_DIR/kernel/vendor_boot.img"
-    mkdir "$WORK_DIR/floppy"
-    tar xf "$TMP_DIR/floppy.tar" -C "$WORK_DIR/floppy"
-    lz4 -q -d "$WORK_DIR/floppy/boot.img.lz4" "$WORK_DIR/floppy/boot.img"
-    lz4 -q -d "$WORK_DIR/floppy/vendor_boot.img.lz4" "$WORK_DIR/floppy/vendor_boot.img"
-    echo "Replacing kernel binaries"
-    mv "$WORK_DIR/floppy/boot.img" "$WORK_DIR/floppy/vendor_boot.img" "$WORK_DIR/kernel/"
+    mv "$TMP_DIR/boot.img" "$TMP_DIR/vendor_boot.img" "$WORK_DIR/kernel/"
 }
 # ]
 
+# m34x has dead charging bug on floppy kernel so I'd rather include stock kernel instead
 if [ "$TARGET_CODENAME" != "m34x" ]; then
     REPLACE_KERNEL_BINARIES
     rm -rf "$TMP_DIR"
-    rm -rf "$WORK_DIR/floppy/"  
 fi
