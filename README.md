@@ -31,8 +31,8 @@ Any form of contribution, suggestions, bug report or feature request for the pro
 - Galaxy A25 (a25x): Supported, Maintained (A256E)
 - Galaxy A33 (a33x): Supported, Maintained (A336B/E)
 - Galaxy M34 (m34x): Supported, Maintained (M346B) (Dead charging bug)
+- Galaxy F34 (f34x): Supported, Maintained (E346B)
 - Galaxy M33 (m33x): Not Supported, Not Maintained
-- Galaxy F34 (f34x): Not Supported, Not Maintained
 
 # Supported firmware (s5e8825)
 [Click Here](https://github.com/Ksawlii-Android-Repos/UN1CA-s5e8825/blob/fourteen-essi/firmwares.md)
