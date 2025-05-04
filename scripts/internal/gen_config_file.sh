@@ -149,8 +149,11 @@ GEN_CONFIG_FILE()
 }
 
 source "$SRC_DIR/target/$1/config.sh"
-if [ "$TARGET_COMMON_NAME" ]; then
-    source "$SRC_DIR/target/$TARGET_COMMON_NAME/config.sh" 
+if [ "$TARGET_COMMON_NAME" ] && [ -d "$SRC_DIR/target/$TARGET_COMMON_NAME" ] ; then
+    source "$SRC_DIR/target/$TARGET_COMMON_NAME/config.sh"
+elif [ ! -d "$SRC_DIR/target/$TARGET_COMMON_NAME" ]; then
+    echo "Error: target/$TARGET_COMMON_NAME not found"
+    exit 1
 fi
 source "$SRC_DIR/unica/config.sh"
 # ]

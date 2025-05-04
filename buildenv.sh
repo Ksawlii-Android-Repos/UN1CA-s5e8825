@@ -134,7 +134,7 @@ else
     fi
 fi
 
-if ! grep -q "TARGET_UNIFIED_NAME" "$SRC_DIR/target/$SELECTED_UNIFIED/config.sh"; then
+if [ -z "$UNIFIED" ] || ! grep -q "TARGET_UNIFIED_NAME" "$SRC_DIR/target/$SELECTED_UNIFIED/config.sh"; then
    if ! echo "${TARGETS[@]}" | grep -w -- "$SELECTED_TARGET" &> /dev/null; then
         echo "\"$SELECTED_TARGET\" is not a valid device." >&2
         echo "Available devices:" >&2
