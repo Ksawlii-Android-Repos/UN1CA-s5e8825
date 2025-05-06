@@ -119,6 +119,7 @@ fi
 if $BUILD_ZIP; then
     echo "- Building ROM zip..."
     bash "$SRC_DIR/scripts/internal/build_flashable_zip.sh"
+    unset RELEASE
     echo ""
 elif $BUILD_TAR; then
     echo "- Building ROM tar..."

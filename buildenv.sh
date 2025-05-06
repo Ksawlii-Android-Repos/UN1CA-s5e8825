@@ -176,4 +176,14 @@ echo "=============================="
 sed "/Automatically/d" "$OUT_DIR/config.sh"
 echo "=============================="
 
+if [ "$RELEASE" = "false" ]; then
+    echo ""
+    echo "=============================="
+    echo "RELEASE IS SET TO FALSE"
+    echo "DISABLING BROTLI COMPRESSION"
+    echo "=============================="
+else
+    export RELEASE=true
+fi
+
 return 0
