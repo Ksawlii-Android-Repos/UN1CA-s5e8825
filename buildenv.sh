@@ -106,7 +106,7 @@ export PATH="$TOOLS_DIR:$PATH"
 TARGETS=()
 while IFS='' read -r t; do TARGETS+=("$t"); done < <(find "$SRC_DIR/target" -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort)
 
-if [ "$#" -gt 1 ]; then
+if [ "$#" -gt 2 ]; then
     echo "Usage: source buildenv.sh <target>" >&2
     echo "Available devices:" >&2
     for t in "${TARGETS[@]}"
@@ -114,7 +114,7 @@ if [ "$#" -gt 1 ]; then
         echo "$t" >&2
     done
     return 1
-elif [ "$#" -ne 1 ]; then
+elif [ "$#" -eq 0 ]; then
     echo "No target specified. Please choose from the available devices below:"
 
     select SELECTED_TARGET in "${TARGETS[@]}"; do
@@ -125,23 +125,49 @@ elif [ "$#" -ne 1 ]; then
         fi
     done
 else
-    SELECTED_TARGET="$1"
+    if grep -qE "TARGET_UNIFIED_NAME=\"?$1\"?" "$SRC_DIR/target/$1/config.sh"; then
+        SELECTED_UNIFIED="$1"
+        SELECTED_TARGET="$2"
+        UNIFIED=true
+    else
+        SELECTED_TARGET="$1"
+    fi
 fi
 
-if ! echo "${TARGETS[@]}" | grep -w -- "$SELECTED_TARGET" &> /dev/null; then
-    echo "\"$SELECTED_TARGET\" is not a valid device." >&2
-    echo "Available devices:" >&2
-    for t in "${TARGETS[@]}"
-    do
-        echo "$t" >&2
-    done
+if [ -z "$UNIFIED" ] || ! grep -q "TARGET_UNIFIED_NAME" "$SRC_DIR/target/$SELECTED_UNIFIED/config.sh"; then
+   if ! echo "${TARGETS[@]}" | grep -w -- "$SELECTED_TARGET" &> /dev/null; then
+        echo "\"$SELECTED_TARGET\" is not a valid device." >&2
+        echo "Available devices:" >&2
+        for t in "${TARGETS[@]}"
+        do
+            echo "$t" >&2
+        done
+        return 1
+    fi
+fi
+
+if [ "$UNIFIED" = "true" ] && [ -z "$2" ]; then
+    echo "Device is not set. Run 'source buildenv.sh $SELECTED_UNIFIED device_codename"
+    return 1
+fi
+
+if [ "$UNIFIED" = "true" ] && ! grep -qE "TARGET_CODENAME=\"?$SELECTED_TARGET\"?" "$SRC_DIR/target/$SELECTED_UNIFIED/config.sh"; then
+    echo "$SELECTED_TARGET is not supported in $SELECTED_UNIFIED target" 
     return 1
 fi
 
 mkdir -p "$OUT_DIR"
 run_cmd build_dependencies || return 1
 [ -f "$OUT_DIR/config.sh" ] && unset $(sed "/Automatically/d" "$OUT_DIR/config.sh" | cut -d= -f1)
-"$SRC_DIR/scripts/internal/gen_config_file.sh" "$SELECTED_TARGET" || return 1
+if [ "$SELECTED_UNIFIED" ]; then
+    export TARGET_CODENAME="$SELECTED_TARGET"
+fi
+if [ "$SELECTED_UNIFIED" ]; then
+    "$SRC_DIR/scripts/internal/gen_config_file.sh" "$SELECTED_UNIFIED" || return 1
+else
+    "$SRC_DIR/scripts/internal/gen_config_file.sh" "$SELECTED_TARGET" || return 1
+fi
+
 set -o allexport; source "$OUT_DIR/config.sh"; set +o allexport
 
 unset TARGETS SELECTED_TARGET
