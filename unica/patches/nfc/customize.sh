@@ -26,7 +26,11 @@ for i in $TARGET_NFC_CHIPNAMES; do
         fi
     elif [ -f "$TARGET_FIRMWARE_PATH/system/system/lib64/libnfc_${i}_jni.so" ]; then
         ADD_TO_WORK_DIR "$TARGET_FIRMWARE_PATH" "system" "system/app/NfcNci/lib/arm64/libnfc_${i}_jni.so" 0 0 644 "u:object_r:system_file:s0"
-        ADD_TO_WORK_DIR "$TARGET_FIRMWARE_PATH" "system" "system/lib64/libnfc-${i}.so" 0 0 644 "u:object_r:system_lib_file:s0"
+        if [ "$TARGET_CODENAME" = "a25x" ]; then
+            ADD_TO_WORK_DIR "$TARGET_FIRMWARE_PATH" "system" "system/lib64/libnfc-nci-st.so" 0 0 644 "u:object_r:system_lib_file:s0"
+        else
+            ADD_TO_WORK_DIR "$TARGET_FIRMWARE_PATH" "system" "system/lib64/libnfc-${i}.so" 0 0 644 "u:object_r:system_lib_file:s0"
+        fi
         ADD_TO_WORK_DIR "$TARGET_FIRMWARE_PATH" "system" "system/lib64/libnfc_${i}_jni.so" 0 0 644 "u:object_r:system_lib_file:s0"
 
         # Workaround for pre-U libs
