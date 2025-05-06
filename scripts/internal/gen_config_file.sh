@@ -79,6 +79,11 @@ GEN_CONFIG_FILE()
         echo "TARGET_VNDK_VERSION=\"${TARGET_VNDK_VERSION:?}\""
         echo "TARGET_SINGLE_SYSTEM_IMAGE=\"${TARGET_SINGLE_SYSTEM_IMAGE:?}\""
         echo "TARGET_OS_FILE_SYSTEM=\"${TARGET_OS_FILE_SYSTEM:?}\""
+        if [ "${TARGET_UNIFIED_NAME}" ]; then
+            echo "TARGET_UNIFIED_NAME=\"${TARGET_UNIFIED_NAME:?}\""
+        else
+            echo "TARGET_UNIFIED_NAME=\"false\""
+        fi
         echo "TARGET_INSTALL_METHOD=\"${TARGET_INSTALL_METHOD:=zip}\""
         echo "TARGET_BOOT_DEVICE_PATH=\"${TARGET_BOOT_DEVICE_PATH:=/dev/block/bootdevice/by-name}\""
         echo "TARGET_INCLUDE_PATCHED_VBMETA=\"${TARGET_INCLUDE_PATCHED_VBMETA:=false}\""
@@ -138,7 +143,7 @@ GEN_CONFIG_FILE()
     } > "$OUT_DIR/config.sh"
 }
 
-source "$SRC_DIR/target/$1/config.sh"
+source "$SRC_DIR/target/$1/config.sh" 
 source "$SRC_DIR/unica/config.sh"
 # ]
 

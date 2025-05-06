@@ -93,6 +93,14 @@ if $BUILD_ROM; then
     bash "$SRC_DIR/scripts/internal/apply_modules.sh" "$SRC_DIR/unica/patches"
     [[ -d "$SRC_DIR/target/$TARGET_CODENAME/patches" ]] \
         && bash "$SRC_DIR/scripts/internal/apply_modules.sh" "$SRC_DIR/target/$TARGET_CODENAME/patches"
+    
+    if [ "$TARGET_UNIFIED_NAME" != "false" ]; then
+        [[ -d "$SRC_DIR/target/$TARGET_UNIFIED_NAME/patches" ]] \
+            && bash "$SRC_DIR/scripts/internal/apply_modules.sh" "$SRC_DIR/target/$TARGET_UNIFIED_NAME/patches"
+    else
+        [[ -d "$SRC_DIR/target/$TARGET_CODENAME/patches" ]] \
+            && bash "$SRC_DIR/scripts/internal/apply_modules.sh" "$SRC_DIR/target/$TARGET_CODENAME/patches"
+    fi
 
     echo -e "\n- Applying ROM mods..."
     bash "$SRC_DIR/scripts/internal/apply_modules.sh" "$SRC_DIR/unica/mods"
