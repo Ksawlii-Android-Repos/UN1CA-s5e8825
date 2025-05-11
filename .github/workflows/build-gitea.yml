@@ -1,0 +1,61 @@
+name: Build
+
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Enter the target device'
+        required: true
+        default: 's5e8825 a53x'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [s5e8825 a25x, s5e8825 a33x, s5e8825 a53x, s5e8825 f34x, s5e8825 m34x]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+
+      - name: Set up build environment
+        run: |
+          sudo apt update
+          sudo apt install -yq \
+            attr ccache clang ffmpeg golang \
+            libbrotli-dev libgtest-dev libprotobuf-dev libunwind-dev libpcre2-dev \
+            libzstd-dev linux-modules-extra-$(uname -r) lld protobuf-compiler webp openjdk-11-jdk
+          sudo modprobe erofs f2fs
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'latest'
+
+      - name: Build dependencies
+        run: source ./buildenv.sh ${{ github.event.inputs.target }}
+
+      - name: Get stock firmwares
+        run: |
+          source ./buildenv.sh ${{ github.event.inputs.target }}
+          mkdir -p out/fw
+          cp -fa /mnt/repos/un1ca-essi/out/fw/SM-S711B out/fw
+          DEVICE=$(echo -n "$TARGET_FIRMWARE" | cut -d "/" -f 1)
+          cp -fa /mnt/repos/un1ca-essi/out/fw/${{ DEVICE out/fw
+
+      - name: Build ROM
+        run: |
+          source ./buildenv.sh ${{ github.event.inputs.target }}
+          ./scripts/make_rom.sh
+
+      - name: Get ROM
+        run: |
+          mv -f out/UN1CA-* /mnt/repos/
