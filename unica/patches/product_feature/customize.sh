@@ -58,11 +58,6 @@ if $SOURCE_AUDIO_SUPPORT_ACH_RINGTONE; then
         echo "Applying ACH ringtone patches"
         APPLY_PATCH "system/framework/framework.jar" "audio/ach/framework.jar/0001-Disable-ACH-ringtone-support.patch"
     fi
-else
-    if $TARGET_AUDIO_SUPPORT_ACH_RINGTONE; then
-        # TODO: won't be necessary anyway
-        true
-    fi
 fi
 
 if $SOURCE_AUDIO_SUPPORT_DUAL_SPEAKER; then
@@ -70,11 +65,6 @@ if $SOURCE_AUDIO_SUPPORT_DUAL_SPEAKER; then
         echo "Applying dual speaker patches"
         APPLY_PATCH "system/framework/framework.jar" "audio/dual_speaker/framework.jar/0001-Disable-dual-speaker-support.patch"
         APPLY_PATCH "system/framework/services.jar" "audio/dual_speaker/services.jar/0001-Disable-dual-speaker-support.patch"
-    fi
-else
-    if $TARGET_AUDIO_SUPPORT_DUAL_SPEAKER; then
-        # TODO: won't be necessary anyway
-        true
     fi
 fi
 
@@ -85,11 +75,6 @@ if $SOURCE_AUDIO_SUPPORT_VIRTUAL_VIBRATION; then
         APPLY_PATCH "system/framework/services.jar" "audio/virtual_vib/services.jar/0001-Disable-virtual-vibration-support.patch"
         APPLY_PATCH "system/priv-app/SecSettings/SecSettings.apk" "audio/virtual_vib/SecSettings.apk/0001-Disable-virtual-vibration-support.patch"
         APPLY_PATCH "system/priv-app/SettingsProvider/SettingsProvider.apk" "audio/virtual_vib/SettingsProvider.apk/0001-Disable-virtual-vibration-support.patch"
-    fi
-else
-    if $TARGET_AUDIO_SUPPORT_VIRTUAL_VIBRATION; then
-        # TODO: won't be necessary anyway
-        true
     fi
 fi
 
@@ -181,6 +166,7 @@ if [[ "$SOURCE_MDNIE_SUPPORTED_MODES" != "$TARGET_MDNIE_SUPPORTED_MODES" ]] || \
         sed -i "s/\"$SOURCE_MDNIE_WEAKNESS_SOLUTION_FUNCTION\"/\"$TARGET_MDNIE_WEAKNESS_SOLUTION_FUNCTION\"/g" "$APKTOOL_DIR/$f"
     done
 fi
+
 if $SOURCE_HAS_HW_MDNIE; then
     if ! $TARGET_HAS_HW_MDNIE; then
         echo "Applying HW mDNIe patches"
@@ -188,23 +174,14 @@ if $SOURCE_HAS_HW_MDNIE; then
         APPLY_PATCH "system/framework/framework.jar" "mdnie/hw/framework.jar/0001-Disable-HW-mDNIe.patch"
         APPLY_PATCH "system/framework/services.jar" "mdnie/hw/services.jar/0001-Disable-HW-mDNIe.patch"
     fi
-else
-    if $TARGET_HAS_HW_MDNIE; then
-        # TODO: add HW mDNIe support
-        true
-    fi
 fi
+
 if $SOURCE_MDNIE_SUPPORT_HDR_EFFECT; then
     if ! $TARGET_MDNIE_SUPPORT_HDR_EFFECT; then
         echo "Applying mDNIe HDR effect patches"
         SET_FLOATING_FEATURE_CONFIG "SEC_FLOATING_FEATURE_COMMON_SUPPORT_HDR_EFFECT" --delete
         APPLY_PATCH "system/priv-app/SecSettings/SecSettings.apk" "mdnie/hdr/SecSettings.apk/0001-Disable-HDR-Settings.patch"
         APPLY_PATCH "system/priv-app/SettingsProvider/SettingsProvider.apk" "mdnie/hdr/SettingsProvider.apk/0001-Disable-HDR-Settings.patch"
-    fi
-else
-    if $TARGET_MDNIE_SUPPORT_HDR_EFFECT; then
-        # TODO: won't be necessary anyway
-        true
     fi
 fi
 
@@ -222,11 +199,6 @@ if ! $SOURCE_HAS_QHD_DISPLAY; then
         ADD_TO_WORK_DIR "$SOURCE" "system" "system/lib64/libgui.so" 0 0 644 "u:object_r:system_lib_file:s0"
         APPLY_PATCH "system/framework/framework.jar" "resolution/framework.jar/0001-Enable-dynamic-resolution-control.patch"
         APPLY_PATCH "system/priv-app/SecSettings/SecSettings.apk" "resolution/SecSettings.apk/0001-Enable-dynamic-resolution-control.patch"
-    fi
-else
-    if ! $TARGET_HAS_QHD_DISPLAY; then
-        # TODO: won't be necessary anyway
-        true
     fi
 fi
 
