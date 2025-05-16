@@ -26,3 +26,7 @@
 	path = external/smali
 	url = https://github.com/google/smali.git
 	ignore = dirty
+[submodule "target/s5e8825/patches/vendor"]
+	path = target/s5e8825/patches/vendor
+	url = git@github.com-ksawlii:Ksawlii-Android-Repos/target_s5e8825_patches_vendor.git
+  ignore = dirty
