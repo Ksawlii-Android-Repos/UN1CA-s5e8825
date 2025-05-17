@@ -25,8 +25,5 @@ REPLACE_KERNEL_BINARIES()
 }
 # ]
 
-# m34x/f34x has dead charging bug on floppy kernel so I'd rather include stock kernel instead
-if [ "$TARGET_CODENAME" != "m34x" ] || [ "$TARGET_CODENAME" != "f34x" ]; then
-    REPLACE_KERNEL_BINARIES
-    rm -rf "$TMP_DIR"
-fi
+REPLACE_KERNEL_BINARIES
+rm -rf "$TMP_DIR"
