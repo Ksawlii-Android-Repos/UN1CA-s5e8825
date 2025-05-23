@@ -68,14 +68,13 @@ This project is licensed under the terms of the [GNU General Public License v3.0
 
 # Credits
 A big thanks goes to the following for their invaluable contributions in no particular order:
-- **[ShaDisNX255](https://github.com/ShaDisNX255)** for his help, time and for his [NcX ROM](https://github.com/ShaDisNX255/NcX_Stock) which inspired this project
-- **[DavidArsene](https://github.com/DavidArsene)** for his help and time
-- **[paulowesll](https://github.com/paulowesll)** for his help and support
-- **[Simon1511](https://github.com/Simon1511)** for his support and some of the device-specific patches
-- **[ananjaser1211](https://github.com/ananjaser1211)** for troubleshooting and his time
-- **[iDrinkCoffee](https://github.com/iDrinkCoffee-TG)** and **[RisenID](https://github.com/RisenID)** for documentation revisioning
-- **[LineageOS Team](https://www.lineageos.org/)** for their original [OTA updater implementation](https://github.com/LineageOS/android_packages_apps_Updater)
-- *All the UN1CA project contributors and testers ❤️*
+- **[Everyone creddited in UN1CA repository](https://github.com/salvogiangri/UN1CA/#credits)** for their help with UN1CA overall
+- **[Fede2782](https://github.com/Fede2782/)** for his [UN1CA essi fork](https://github.com/Fede2782/UN1CA/). It wouldn't be possible without it
+- **[Flylarb_meow](t.me/Flylarb_meow)** for fixing sound quality
+- **[Flopster101](https://github.com/Flopster101)** for [FloppyKernel](https://github.com/FlopKernel-Series/flop_s5e8825_kernel/)
+- **[alyassin105g](t.me/alyassin105g)** for fixing Adaptive Refresh Rate color flickering
+- **[Mahdi](https://github.com/imahdisalimi)** for fixing live wallpapers
+- *All the UN1CA-s5e8825 project contributors and testers*
 
 # Stargazers over time
 [![Stargazers over time](https://starchart.cc/salvogiangri/UN1CA.svg)](https://starchart.cc/salvogiangri/UN1CA)
