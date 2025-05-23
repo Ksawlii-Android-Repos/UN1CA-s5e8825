@@ -1,8 +1,9 @@
-echo "Add stock vintf manifest"
+LOG_STEP_IN
+LOG "- Add stock vintf manifest"
 ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/etc/vintf/compatibility_matrix.device.xml" 0 0 644 "u:object_r:system_file:s0"
 ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/etc/vintf/manifest.xml" 0 0 644 "u:object_r:system_file:s0"
 
-echo "Fix sound quality"
+LOG "- Fix sound quality"
 DELETE_FROM_WORK_DIR "system" "system/etc/stage_policy.conf"
 DELETE_FROM_WORK_DIR "system" "system/lib/lib_soundaliveresampler.so"
 DELETE_FROM_WORK_DIR "system" "system/lib/lib_SoundBooster_ver2000.so"
@@ -34,7 +35,7 @@ ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/lib64/lib_SoundBooster_ver11
 ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/lib/lib_SoundAlive_play_plus_ver400.so" 0 0 644 "u:object_r:system_lib_file:s0"
 ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/lib64/lib_SoundAlive_play_plus_ver400.so" 0 0 644 "u:object_r:system_lib_file:s0"
 
-echo "Fix DeX"
+LOG "- Fix DeX"
 DELETE_FROM_WORK_DIR "system" "system/bin/remotedisplay"
 DELETE_FROM_WORK_DIR "system" "system/lib/libremotedisplay.so"
 DELETE_FROM_WORK_DIR "system" "system/lib64/libremotedisplay.so"
@@ -46,11 +47,11 @@ ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/lib64/libremotedisplay.so" 0
 ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/lib64/libremotedisplay_wfd.so" 0 0 644 "u:object_r:system_lib_file:s0"
 ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/lib64/libremotedisplayservice.so" 0 0 644 "u:object_r:system_lib_file:s0"
 
-echo "Fix NFC"
+LOG "- Fix NFC"
 DELETE_FROM_WORK_DIR "system" "system/app/NfcNci"
 ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/app/NfcNci" 0 0 755 "u:object_r:system_file:s0"
 
-echo "Fix engmode"
+LOG "- Fix engmode"
 DELETE_FROM_WORK_DIR "system" "system/lib/lib.engmode.samsung.so"
 DELETE_FROM_WORK_DIR "system" "system/lib/lib.engmodejni.samsung.so"
 DELETE_FROM_WORK_DIR "system" "system/lib/vendor.samsung.hardware.security.engmode@1.0.so"
@@ -63,3 +64,4 @@ ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/lib64/lib.engmode.samsung.so
 ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/lib64/lib.engmodejni.samsung.so" 0 0 644 "u:object_r:system_lib_file:s0"
 ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/lib/vendor.samsung.hardware.security.engmode@1.0.so" 0 0 644 "u:object_r:system_lib_file:s0"
 ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/lib64/vendor.samsung.hardware.security.engmode@1.0.so" 0 0 644 "u:object_r:system_lib_file:s0"
+LOG_STEP_OUT

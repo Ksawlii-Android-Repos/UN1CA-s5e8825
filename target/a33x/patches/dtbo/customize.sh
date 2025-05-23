@@ -23,18 +23,20 @@ EXTRACT() {
     done
 }
 
-APPLY_PATCH() {
-    local PATCH
-    local COMMIT_NAME
+APPLY_DTBO_PATCH() {
+    local PATCH="$SRC_DIR/target/$TARGET_CODENAME/patches/dtbo/patches/$1"
 
-    PATCH="$SRC_DIR/target/$TARGET_CODENAME/patches/dtbo/patches/$2"
-    COMMIT_NAME="$(grep "^Subject:" "$PATCH" | sed 's/.*PATCH] //')"
-    echo "Applying \"$COMMIT_NAME\" to $1"
-    patch -p1 -s -t -N --no-backup-if-mismatch -d "$TMP_DIR" < "$PATCH" &> /dev/null
-    cd - &> /dev/null
+    if [ ! -f "$PATCH" ]; then
+        LOGE "File not found: ${PATCH//$SRC_DIR\//}"
+        return 1
+    fi
+
+    LOG "- Applying \"$(grep "^Subject:" "$PATCH" | sed "s/.*PATCH] //")\" to dtbo"
+    EVAL "LC_ALL=C git apply --directory=\"$TMP_DIR\" --verbose --unsafe-paths \"$PATCH\"" || return 1
 }
 
 CREATE_CFG() {
+    LOG_STEP_OUT
     {
         echo "a33x_eur_open_w00_r00.dtbo"
         echo "    custom0=0x00000000"
@@ -56,6 +58,7 @@ CREATE_CFG() {
         echo "    custom0=0x00000004"
         echo "    custom1=0x00000020"
     } >> "$TMP_DIR/$TARGET_CODENAME.cfg"
+    LOG_STEP_IN
 }
 
 PACK_TO_DTBO() {
@@ -71,14 +74,16 @@ PACK_TO_IMG() {
 }
 
 COPY_TOOLS
-echo "Extract dtbo"
+LOG_STEP_IN
+LOG "- Extract dtbo"
 EXTRACT
-APPLY_PATCH "dtbo" "0001-Fix-Adaptive-Refresh-Rate-Color-Flickering.patch"
+APPLY_DTBO_PATCH "0001-Fix-Adaptive-Refresh-Rate-Color-Flickering.patch"
 CREATE_CFG
-echo "Repack dtbo"
+LOG "- Repack dtbo"
 PACK_TO_DTBO
 PACK_TO_IMG
 [ -f "$WORK_DIR/kernel/dtbo.img" ] && rm -rf "$WORK_DIR/kernel/dtbo.img"
-echo "Copy new dtbo.img"
+LOG "- Copy new dtbo.img"
 cp -fa "$TMP_DIR/dtbo.img" "$WORK_DIR/kernel/dtbo.img"
 rm -rf "$TMP_DIR"
+LOG_STEP_OUT
