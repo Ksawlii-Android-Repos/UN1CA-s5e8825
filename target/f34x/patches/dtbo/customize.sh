@@ -37,12 +37,12 @@ APPLY_PATCH() {
 CREATE_CFG() {
     {
         echo "m34x_swa_ins_w00_r00.dtbo"
-        echo "custom0=0x00000000"
-        echo "custom1=0x00000000"
+        echo "    custom0=0x00000000"
+        echo "    custom1=0x00000000"
         echo ""
         echo "m34x_swa_ins_w00_r01.dtbo"
-        echo "custom0=0x00000001"
-        echo "custom1=0x00000020"
+        echo "    custom0=0x00000001"
+        echo "    custom1=0x00000020"
     } >> "$TMP_DIR/$TARGET_CODENAME.cfg"
 }
 
