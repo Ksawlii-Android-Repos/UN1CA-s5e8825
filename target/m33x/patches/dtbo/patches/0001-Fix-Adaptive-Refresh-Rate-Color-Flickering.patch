@@ -1,6 +1,6 @@
-From 714485f426cc78a3989fb2c9314f56f7378228f8 Mon Sep 17 00:00:00 2001
+From 591a859e361ff9d40868ec1ac57e875ed3e5f045 Mon Sep 17 00:00:00 2001
 From: Ksawlii <ksawery.blaszczak@proton.me>
-Date: Fri, 23 May 2025 18:36:13 +0200
+Date: Fri, 23 May 2025 19:36:23 +0200
 Subject: [PATCH] Fix Adaptive Refresh Rate Color Flickering
 
 Signed-off-by: Ksawlii <ksawery.blaszczak@proton.me>
@@ -11,7 +11,7 @@ Signed-off-by: Ksawlii <ksawery.blaszczak@proton.me>
  3 files changed, 54 insertions(+), 54 deletions(-)
 
 diff --git a/dtsi.0 b/dtsi.0
-index 0a02ec8..3b5363c 100644
+index 0a02ec8..01b484a 100644
 --- a/dtsi.0
 +++ b/dtsi.0
 @@ -1414,18 +1414,18 @@
@@ -45,7 +45,7 @@ index 0a02ec8..3b5363c 100644
 -					panel_v_porch = <0x0a 0x9e6 0x08>;
 -					cmd_lp_ref = <0x1e3d>;
 +					panel_v_porch = <0x0a 0x36 0x08>;
-+					cmd_lp_ref = <0xf77;
++					cmd_lp_ref = <0xf77>;
  					phandle = <0x4a>;
  				};
  			};
