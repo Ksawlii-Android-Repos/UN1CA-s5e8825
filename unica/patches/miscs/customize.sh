@@ -33,7 +33,11 @@ if [[ "$SOURCE_SUPPORT_CUTOUT_PROTECTION" != "$TARGET_SUPPORT_CUTOUT_PROTECTION"
 fi
 
 # Fix playback of Widevine DRM content on Exynos by forcing L3
-if [[ "$TARGET_SINGLE_SYSTEM_IMAGE" == "essi" ]]; then
-    [[ -f "$TARGET_FIRMWARE_PATH/vendor/lib64/liboemcrypto.so" ]] && echo -n > "$WORK_DIR/vendor/lib64/liboemcrypto.so"
-    [[ -f "$TARGET_FIRMWARE_PATH/vendor/lib/liboemcrypto.so" ]] && echo -n > "$WORK_DIR/vendor/lib/liboemcrypto.so"
+SKIP="a25x a33x a53x f34x m33x m34x"
+
+if ! echo "$SKIP" | grep -q -w "$TARGET_CODENAME"; then
+    if [ "$TARGET_SINGLE_SYSTEM_IMAGE" == "essi" ]; then
+       [ -f "$TARGET_FIRMWARE_PATH/vendor/lib64/liboemcrypto.so" ] && echo -n > "$WORK_DIR/vendor/lib64/liboemcrypto.so"
+       [ -f "$TARGET_FIRMWARE_PATH/vendor/lib/liboemcrypto.so" ] && echo -n > "$WORK_DIR/vendor/lib/liboemcrypto.so"
+    fi
 fi
