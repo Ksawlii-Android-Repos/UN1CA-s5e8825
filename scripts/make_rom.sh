@@ -37,17 +37,21 @@ GET_WORK_DIR_HASH()
 PREPARE_SCRIPT()
 {
     while [ "$#" != 0 ]; do
-        if [[ "$1" == "--force" ]] || [[ "$1" == "-f" ]]; then
-            FORCE=true
-        elif [[ "$1" == "--no-rom-zip" ]]; then
-            BUILD_ZIP=false
-        else
-            if [[ "$1" == "-"* ]]; then
-                LOGE "Unknown option: $1"
-            fi
-            PRINT_USAGE
-            exit 1
-        fi
+        case "$1" in
+          "-f" | "--force")
+              FORCE=true
+              ;;
+          "--no-rom-zip")
+              BUILD_ZIP=false
+              ;;
+          *)
+              if [[ "$1" == "-"* ]]; then
+                  LOGE "Unknown option: $1"
+              fi
+              PRINT_USAGE
+              exit 1
+              ;;
+        esac
 
         shift
     done
