@@ -14,7 +14,9 @@ RESIZE_APK()
     fi
 
     echo "Resize wallpaper-res.apk"
-    DECODE_APK "system" "system/priv-app/wallpaper-res/wallpaper-res.apk"
+    if [ ! -d "$APKTOOL_DIR/system/priv-app/wallpaper-res" ]; then
+        DECODE_APK "system" "system/priv-app/wallpaper-res/wallpaper-res.apk" 
+    fi
     for f in "$APKTOOL_DIR/system/priv-app/wallpaper-res/wallpaper-res.apk/res/drawable-nodpi/Wallpaper_"*.webp
     do
         cwebp -q 100 -resize $WEBP_RES $WEBP_RES "$f" -o "$(dirname "$f")/temp.webp" &> /dev/null
