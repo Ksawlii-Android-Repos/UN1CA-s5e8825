@@ -101,13 +101,14 @@ if [[ "$SOURCE_ESE_CHIP_VENDOR" != "$TARGET_ESE_CHIP_VENDOR" ]] || \
         ADD_TO_WORK_DIR "$SOURCE" "system" "system/lib/libtlc_payment_spay.so" 0 0 644 "u:object_r:system_lib_file:s0"
         ADD_TO_WORK_DIR "$SOURCE" "system" "system/lib64/hidl_tlc_payment_comm_client.so" 0 0 644 "u:object_r:system_lib_file:s0"
         ADD_TO_WORK_DIR "$SOURCE" "system" "system/lib64/libtlc_payment_spay.so" 0 0 644 "u:object_r:system_lib_file:s0"
-        if [[ "$TARGET_SINGLE_SYSTEM_IMAGE" == "qssi" ]]; then
-            APPLY_PATCH "system" "system/framework/framework.jar" "$SRC_DIR/unica/patches/nfc/ese/qssi/framework.jar/0001-Disable-SemService.patch"
-            APPLY_PATCH "system" "system/framework/services.jar" "$SRC_DIR/unica/patches/nfc/ese/qssi/services.jar/0001-Disable-SemService.patch"
-        elif [[ "$TARGET_SINGLE_SYSTEM_IMAGE" == "essi" ]]; then
-            APPLY_PATCH "system" "system/framework/framework.jar" "$SRC_DIR/unica/patches/nfc/ese/essi/framework.jar/0001-Disable-SemService.patch"
-            APPLY_PATCH "system" "system/framework/services.jar" "$SRC_DIR/unica/patches/nfc/ese/essi/services.jar/0001-Disable-SemService.patch"
-        fi
+        # TEMP
+        #if [[ "$TARGET_SINGLE_SYSTEM_IMAGE" == "qssi" ]]; then
+        #    APPLY_PATCH "system" "system/framework/framework.jar" "$SRC_DIR/unica/patches/nfc/ese/qssi/framework.jar/0001-Disable-SemService.patch"
+        #    APPLY_PATCH "system" "system/framework/services.jar" "$SRC_DIR/unica/patches/nfc/ese/qssi/services.jar/0001-Disable-SemService.patch"
+        #elif [[ "$TARGET_SINGLE_SYSTEM_IMAGE" == "essi" ]]; then
+        #    APPLY_PATCH "system" "system/framework/framework.jar" "$SRC_DIR/unica/patches/nfc/ese/essi/framework.jar/0001-Disable-SemService.patch"
+        #    APPLY_PATCH "system" "system/framework/services.jar" "$SRC_DIR/unica/patches/nfc/ese/essi/services.jar/0001-Disable-SemService.patch"
+        #fi
     else
         FTP="
         system/framework/framework.jar/smali_classes5/com/android/server/SemService.smali
