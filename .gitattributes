@@ -24,6 +24,7 @@ unica/mods/pif/system/bin/rezetprop binary
 
 # Device-specific prebuilt blobs
 target/*/patches/wallpapers/** binary
+target/*/patches/dtbo/bin/** binary
 target/a52sxq/patches/wpss/vendor/firmware/** binary
 target/a71/patches/*/*/** binary
 target/a73xq/patches/wpss/vendor/firmware/** binary
