@@ -19,6 +19,7 @@
 # [
 source "$SRC_DIR/scripts/utils/build_utils.sh" || exit 1
 
+DEBUG=false
 FORCE=false
 BUILD_ROM=false
 BUILD_ZIP=true
@@ -38,6 +39,9 @@ PREPARE_SCRIPT()
 {
     while [ "$#" != 0 ]; do
         case "$1" in
+          "-d" | "--debug")
+              DEBUG=true
+              ;;
           "-f" | "--force")
               FORCE=true
               ;;
@@ -77,6 +81,7 @@ PRINT_BUILD_OUTCOME()
 PRINT_USAGE()
 {
     echo "Usage: make_rom [options]" >&2
+    echo " -d, --debug : Make debug build" >&2
     echo " -f, --force : Force ROM build" >&2
     echo " --no-rom-zip : Do not build ROM zip" >&2
 }
